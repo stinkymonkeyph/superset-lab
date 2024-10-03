@@ -28,7 +28,18 @@ from flask_caching.backends.filesystemcache import FileSystemCache
 
 logger = logging.getLogger()
 
+CONTENT_SECURITY_POLICY = {
+    'default-src': ['self', 'https://poc-emr-coffee.s3.us-east-2.amazonaws.com'],
+    # Add other directives as needed
+}
+ENABLE_CORS = True
+HTTP_HEADERS = {}
+TALISMAN_ENABLED = False
+ENABLE_JAVASCRIPT_CONTROLS = True
 PUBLIC_ROLE_LIKE = "Gamma"
+GUEST_ROLE_NAME = "Public"
+
+WTF_CSRF_ENABLED = False
 
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
 DATABASE_USER = os.getenv("DATABASE_USER")
@@ -99,7 +110,8 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+FEATURE_FLAGS = {"ALERT_REPORTS": True,
+                 "EMBEDDED_SUPERSET": True, "GUEST_TOKEN": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 # When using docker compose baseurl should be http://superset_app:8088/
 WEBDRIVER_BASEURL = "http://superset:8088/"
